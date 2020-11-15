@@ -9,6 +9,9 @@ org.eclipse*
 # OpenLiberty specific
 server.xml
 
+# MicroProfile specific
+microprofile-config.properties
+
 # Log file
 *.log
 
