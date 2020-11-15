@@ -47,14 +47,14 @@ public class RealmResourceService implements RealmResource {
                 return Response.status(500).entity("The provided ID is null.").build();
         }
 
-        Realm Realm = this.realmController.find(id);
+        Realm realm = this.realmController.find(id);
 
-        if(Realm == null) {
+        if(realm == null) {
                 return Response.status(404).entity("The provided ID has no match in the database.").build();
         }
 
         logger.debug("find() exit.");
-        return Response.status(200).entity(Realm).build();
+        return Response.status(200).entity(realmMapper.realmToDTO(realm)).build();
     }
 
     public Response findAllRealms() {
@@ -128,7 +128,11 @@ public class RealmResourceService implements RealmResource {
                 return Response.status(500).entity("The provided ID is null.").build();
         }
 
-        List<RealmCharacters> linkList = this.realmCharactersController.findByRealm(realmID);
+        List<LinksDTO> linkList = new ArrayList<>();
+
+        for(RealmCharacters link : this.realmCharactersController.findByRealm(realmID)) {
+            linkList.add(linksMapper.linkToDTO(link));
+        }
 
         logger.debug("find() exit.");
         return Response.status(200).entity(linkList).build();
@@ -141,7 +145,11 @@ public class RealmResourceService implements RealmResource {
                 return Response.status(500).entity("The provided ID is null.").build();
         }
 
-        List<RealmCharacters> linkList = this.realmCharactersController.findByAccount(accountID);
+        List<LinksDTO> linkList = new ArrayList<>();
+
+        for(RealmCharacters link : this.realmCharactersController.findByAccount(accountID)) {
+            linkList.add(linksMapper.linkToDTO(link));
+        }
 
         logger.debug("find() exit.");
         return Response.status(200).entity(linkList).build();
