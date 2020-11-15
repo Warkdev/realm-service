@@ -24,12 +24,13 @@ First of all, you need to have setup the authentication database and have it ava
 - jpa-2.2
 - mpConfig-1.4
 - mpOpenAPI-1.1
+- mpRestClient-1.4
 
 This software is tested against [openliberty 20.0.0.11](https://openliberty.io/).
 
 # Configuring your webserver
 
-Start by making available, in your lib directory, your database JDBC driver. Once done, here's an example for an openliberty server.xml configuration which will setup this application on `/auth-service` on port 9081. It's also assuming that you're using MariaDB and that it's provided in the shared resources folder of the webserver.
+Start by making available, in your lib directory, your database JDBC driver. Once done, here's an example for an openliberty server.xml configuration which will setup this application on `/realm-service` on port 9081. It's also assuming that you're using MariaDB and that it's provided in the shared resources folder of the webserver.
 
 ```xml
 <server description="ZeroAuthDB">
@@ -40,6 +41,7 @@ Start by making available, in your lib directory, your database JDBC driver. Onc
         <feature>jpa-2.2</feature>
         <feature>mpConfig-1.4</feature>
         <feature>mpOpenAPI-1.1</feature>
+        <feature>mpRestClient-1.4</feature>
     </featureManager>
 
     <variable name="default.http.port" defaultValue="9081"/>
@@ -64,3 +66,16 @@ Start by making available, in your lib directory, your database JDBC driver. Onc
 ```
 
 Voilà ! You're all set, now you can happily use this API to interact with the database.
+
+# Docker
+
+You can also user the provided Dockerfile as example to create your own applicative image containing this service !
+
+# Dependency
+
+This service requires the [account-service](https://www.github.com/Warkdev/account-service) to be available and running on your network. Make sure it's the case. You can customize the URL of the account-service by updating the file [microprofile-](https://www.github.com/Warkdev/realm-service/blob/src/main/webapp/META-INF/microprofile-config.properties):
+
+```ini
+accountClient/mp-rest/url=http://<account_service_url>:<port>/<account_service_path>
+accountClient/mp-rest/scope=Singleton
+```
