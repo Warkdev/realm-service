@@ -77,5 +77,4 @@ This service requires the [account-service](https://www.github.com/Warkdev/accou
 
 ```ini
 accountClient/mp-rest/url=http://<account_service_url>:<port>/<account_service_path>
-accountClient/mp-rest/scope=Singleton
 ```

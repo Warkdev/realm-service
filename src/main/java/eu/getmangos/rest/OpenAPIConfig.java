@@ -12,6 +12,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 @OpenAPIDefinition(
     tags = {
         @Tag(name = "realm", description="Operations about realms"),
+        @Tag(name = "link", description="Manages links between accounts and realms"),
         @Tag(name = "status", description="Operations about realms status")
     },
     externalDocs = @ExternalDocumentation(
