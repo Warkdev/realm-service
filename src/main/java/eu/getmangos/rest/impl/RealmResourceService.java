@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.slf4j.Logger;
 
 import eu.getmangos.controllers.DAOException;

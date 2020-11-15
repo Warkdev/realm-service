@@ -41,6 +41,7 @@ public interface RealmResource {
             @APIResponse(responseCode = "500", description = "An unexpected event occured")
         }
     )
+    @Tag(name = "realm")
     public Response findRealm(@PathParam("id") Integer id);
 
     @GET
@@ -58,6 +59,7 @@ public interface RealmResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "realm")
     public Response findAllRealms();
 
     @POST
@@ -75,6 +77,7 @@ public interface RealmResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "realm")
     public Response addRealm(RealmDTO entity);
 
     @PUT
@@ -94,6 +97,7 @@ public interface RealmResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "realm")
     public Response editRealm(@PathParam("id") Integer id, RealmDTO entity);
 
     @DELETE
@@ -114,6 +118,7 @@ public interface RealmResource {
             @APIResponse(responseCode = "500", description = "An unexpected even occured")
         }
     )
+    @Tag(name = "realm")
     public Response deleteRealm(@PathParam("id") Integer id);
 
     @GET
