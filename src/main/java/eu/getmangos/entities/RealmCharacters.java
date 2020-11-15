@@ -10,6 +10,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "realmcharacters")
 @NamedQueries({
@@ -17,9 +21,9 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "RealmCharacters.findById", query = "SELECT rc FROM RealmCharacters rc WHERE rc.id = :id"),
     @NamedQuery(name = "RealmCharacters.findByRealm", query = "SELECT rc FROM RealmCharacters rc WHERE rc.id.realmID = :realmID"),
     @NamedQuery(name = "RealmCharacters.findByAccount", query = "SELECT rc FROM RealmCharacters rc WHERE rc.id.accountID = :accountID"),
-    @NamedQuery(name = "RealmCharacters.findDeadLinks", query = "SELECT rc FROM RealmCharacters as rc LEFT JOIN Realm as r ON rc.id.realmID = r.id LEFT JOIN Account as a ON rc.id.accountID = a.id WHERE r.id IS NULL OR a.id IS NULL"),
-    @NamedQuery(name = "RealmCharacters.deleteDeadLink", query= "DELETE FROM RealmCharacters rc WHERE rc.id.realmID = :realmId AND rc.id.accountID = :accountId"),
+    @NamedQuery(name = "RealmCharacters.deleteDeadLink", query= "DELETE FROM RealmCharacters rc WHERE rc.id.realmID = :realmId AND rc.id.accountID = :accountId")
 })
+@Data @AllArgsConstructor @NoArgsConstructor
 public class RealmCharacters implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,20 +34,4 @@ public class RealmCharacters implements Serializable {
     @Column(name = "numchars")
     @NotNull
     private int numChars;
-
-    public RealmCharactersID getId() {
-        return id;
-    }
-
-    public void setId(RealmCharactersID id) {
-        this.id = id;
-    }
-
-    public int getNumChars() {
-        return numChars;
-    }
-
-    public void setNumChars(int numChars) {
-        this.numChars = numChars;
-    }
 }

@@ -10,6 +10,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "uptime")
 @NamedQueries({
@@ -18,6 +22,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Uptime.findDeadLinks", query= "SELECT DISTINCT u.id.realmId FROM Uptime as u LEFT JOIN Realm as r ON u.id.realmId = r.id WHERE r.id IS NULL"),
     @NamedQuery(name = "Uptime.deleteDeadLinks", query= "DELETE FROM Uptime u WHERE u.id.realmId in :id")
 })
+@Data @AllArgsConstructor @NoArgsConstructor
 public class Uptime implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -34,36 +39,4 @@ public class Uptime implements Serializable {
     @Column(name = "maxplayers")
     @NotNull
     private int maxPlayers;
-
-    public UptimeId getId() {
-        return id;
-    }
-
-    public void setId(UptimeId id) {
-        this.id = id;
-    }
-
-    public String getStartStr() {
-        return startStr;
-    }
-
-    public void setStartStr(String startStr) {
-        this.startStr = startStr;
-    }
-
-    public long getUptime() {
-        return uptime;
-    }
-
-    public void setUptime(long uptime) {
-        this.uptime = uptime;
-    }
-
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
-
-    public void setMaxPlayers(int maxPlayers) {
-        this.maxPlayers = maxPlayers;
-    }
 }

@@ -11,22 +11,17 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 @ApplicationPath("/")
 @OpenAPIDefinition(
     tags = {
-        @Tag(name = "account", description="Operations about accounts"),
-        @Tag(name = "ban", description="Operations about bans (accounts and IPs)"),
-        @Tag(name = "version", description="Operations about database version"),
         @Tag(name = "realm", description="Operations about realms"),
-        @Tag(name = "status", description="Operations about realms status"),
-        @Tag(name = "warden", description="Operations about warden logfiles"),
-        @Tag(name = "operation", description="Maintenance operations on the database")
+        @Tag(name = "status", description="Operations about realms status")
     },
     externalDocs = @ExternalDocumentation(
         description = "Instructions on how to deploy this WebApp",
-        url = "https://github.com/Warkdev/zero-auth-db/blob/master/README.md"
+        url = "https://github.com/Warkdev/realm-service/blob/master/README.md"
     ),
     info = @Info(
-            title = "Mangos Auth API",
+            title = "Mangos Realms API",
             version = "1.0",
-            description = "API allowing to interact with the Mangos Auth Database",
+            description = "API allowing to interact with the Mangos Realms information",
             license = @License(
                     name = "Apache 2.0"
             )

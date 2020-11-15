@@ -14,6 +14,9 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import eu.getmangos.utils.FlagUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="realmlist", uniqueConstraints = {
@@ -26,7 +29,7 @@ import eu.getmangos.utils.FlagUtils;
     @NamedQuery(name = "Realm.findByType", query = "SELECT r FROM Realm r where r.icon = :type"),
     @NamedQuery(name = "Realm.findByZone", query = "SELECT r FROM Realm r where r.zone = :zone")
 })
-
+@Data @AllArgsConstructor @NoArgsConstructor
 public class Realm implements Serializable {
 
     private static final long serialVersionUID = 1L;

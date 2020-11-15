@@ -2,6 +2,7 @@ package eu.getmangos.controllers;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -9,16 +10,20 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 
+import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.entities.RealmCharacters;
 import eu.getmangos.entities.RealmCharactersID;
+import eu.getmangos.rest.client.AccountResource;
+import eu.getmangos.rest.client.UnknownUriException;
 
-@RequestScoped
+@ApplicationScoped
 public class RealmCharactersController {
     @Inject private Logger logger;
 
-    @Inject AccountController accountController;
+    @Inject @RestClient AccountResource accountRessource;
     @Inject RealmController realmController;
 
     @PersistenceContext(name = "AUTH_PU")
@@ -33,10 +38,22 @@ public class RealmCharactersController {
     public void create(RealmCharacters link) throws DAOException {
         logger.debug("create() entry.");
 
-        if(accountController.find(link.getId().getAccountID()) == null) {
+        AccountDTO account = null;
+        try {
+            account = accountRessource.findAccount(link.getId().getAccountID()).readEntity(AccountDTO.class);
+        } catch (UnknownUriException uue) {
+            // Error handling.
+            logger.debug("Unknown uri exception: " +uue.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.debug("Other exception: "+e.getMessage());
+        }
+
+        if(account == null) {
             logger.debug("create() exit.");
             throw new DAOException("Account doesn't exist.");
         }
+
         if(find(link.getId()) != null) {
             logger.debug("create() exit.");
             throw new DAOException("Link already exist.");
@@ -136,7 +153,7 @@ public class RealmCharactersController {
      * Delete all realm-account links logs from the database which have dead links.
      * @return An int indicating the amount of records impacted by this operation.
      */
-    @Transactional
+    /**@Transactional
     public int cleanupDeadLinks() {
         logger.debug("cleanupDeadLinks() entry.");
 
@@ -153,19 +170,19 @@ public class RealmCharactersController {
 
         logger.debug("cleanupDeadLinks() exit.");
         return records;
-    }
+    }*/
 
     /**
      * Return a list of links for which the realm ID or the account ID doesnt exist anymore.
      * @return A list of RealmCharacters objects.
      */
-    @SuppressWarnings("unchecked")
+    /**@SuppressWarnings("unchecked")
     public List<RealmCharacters> findDeadLinks() {
         logger.debug("findDeadLinks() entry.");
         List<RealmCharacters> linkList = (List<RealmCharacters>) em.createNamedQuery("RealmCharacters.findDeadLinks").getResultList();
         logger.debug("findDeadLinks() exit.");
         return linkList;
-    }
+    }*/
 
     /**
      * Return a list of links based on the realm ID.
