@@ -16,14 +16,14 @@ import org.slf4j.Logger;
 import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.entities.RealmCharacters;
 import eu.getmangos.entities.RealmCharactersID;
-import eu.getmangos.rest.client.AccountResource;
+import eu.getmangos.rest.client.AccountResourceClient;
 import eu.getmangos.rest.client.UnknownUriException;
 
 @ApplicationScoped
 public class RealmCharactersController {
     @Inject private Logger logger;
 
-    @Inject @RestClient AccountResource accountRessource;
+    @Inject @RestClient AccountResourceClient accountRessource;
     @Inject RealmController realmController;
 
     @PersistenceContext(name = "AUTH_PU")

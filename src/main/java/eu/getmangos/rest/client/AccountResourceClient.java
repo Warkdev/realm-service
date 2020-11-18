@@ -14,7 +14,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 @RegisterRestClient(configKey = "accountClient")
 @RegisterProvider(UnknownUriExceptionMapper.class)
 @Path("/v1")
-public interface AccountResource {
+public interface AccountResourceClient {
 
     @GET
     @Path("{id}")
