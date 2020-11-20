@@ -3,27 +3,21 @@ package eu.getmangos.controllers;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 
-import eu.getmangos.dto.AccountDTO;
 import eu.getmangos.entities.RealmCharacters;
 import eu.getmangos.entities.RealmCharactersID;
-import eu.getmangos.rest.client.AccountResourceClient;
-import eu.getmangos.rest.client.UnknownUriException;
 
 @ApplicationScoped
 public class RealmCharactersController {
     @Inject private Logger logger;
 
-    @Inject @RestClient AccountResourceClient accountRessource;
     @Inject RealmController realmController;
 
     @PersistenceContext(name = "AUTH_PU")
@@ -32,27 +26,11 @@ public class RealmCharactersController {
     @Transactional
     /**
      * Creates a link between a realm and an account in the dabatase.
-     * @param link The link to create. The account must exist otherwise an error is thrown.
+     * @param link The link to create.
      * @throws DAOException Send a DAOException if something happened during the data validation.
      */
     public void create(RealmCharacters link) throws DAOException {
         logger.debug("create() entry.");
-
-        AccountDTO account = null;
-        try {
-            account = accountRessource.findAccount(link.getId().getAccountID()).readEntity(AccountDTO.class);
-        } catch (UnknownUriException uue) {
-            // Error handling.
-            logger.debug("Unknown uri exception: " +uue.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.debug("Other exception: "+e.getMessage());
-        }
-
-        if(account == null) {
-            logger.debug("create() exit.");
-            throw new DAOException("Account doesn't exist.");
-        }
 
         if(find(link.getId()) != null) {
             logger.debug("create() exit.");
