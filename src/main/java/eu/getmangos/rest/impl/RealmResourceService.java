@@ -15,6 +15,7 @@ import eu.getmangos.controllers.RealmCharactersController;
 import eu.getmangos.controllers.RealmController;
 import eu.getmangos.controllers.UptimeController;
 import eu.getmangos.dto.LinksDTO;
+import eu.getmangos.dto.MessageDTO;
 import eu.getmangos.dto.RealmDTO;
 import eu.getmangos.dto.UptimeDTO;
 import eu.getmangos.entities.Realm;
@@ -27,7 +28,7 @@ import eu.getmangos.mapper.UptimeMapper;
 import eu.getmangos.rest.RealmResource;
 
 @RequestScoped
-@Path("/v1")
+@Path("/realm/v1")
 public class RealmResourceService implements RealmResource {
 
     @Inject private Logger logger;
@@ -44,13 +45,13 @@ public class RealmResourceService implements RealmResource {
         logger.debug("find() entry.");
 
         if (id == null) {
-                return Response.status(500).entity("The provided ID is null.").build();
+                return Response.status(400).entity(new MessageDTO("The provided ID is null.")).build();
         }
 
         Realm realm = this.realmController.find(id);
 
         if(realm == null) {
-                return Response.status(404).entity("The provided ID has no match in the database.").build();
+                return Response.status(404).entity(new MessageDTO("The provided ID has no match in the database.")).build();
         }
 
         logger.debug("find() exit.");
@@ -74,11 +75,11 @@ public class RealmResourceService implements RealmResource {
         try {
                 this.realmController.create(realmMapper.dtoToEntity(entity));
         } catch (DAOException daoEx) {
-                return Response.status(400).entity(daoEx.getMessage()).build();
+                return Response.status(400).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
-        return Response.status(201).entity("Realm has been created.").build();
+        return Response.status(201).entity(new MessageDTO("Realm has been created.")).build();
     }
 
     public Response editRealm(Integer id, RealmDTO entity) {
@@ -86,35 +87,35 @@ public class RealmResourceService implements RealmResource {
                 entity.setId(id);
                 this.realmController.update(realmMapper.dtoToEntity(entity));
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
-        return Response.status(200).entity("Realm has been updated.").build();
+        return Response.status(200).entity(new MessageDTO("Realm has been updated.")).build();
     }
 
     public Response deleteRealm(Integer id) {
         try {
                 this.realmController.delete(id);
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
-        return Response.status(204).build();
+        return Response.status(204).entity(new MessageDTO("Realm has been deleted.")).build();
     }
 
     public Response findRealmCharacters(Integer realmID, Integer accountID) {
         logger.debug("find() entry.");
 
         if (realmID == null || accountID == null) {
-                return Response.status(500).entity("The provided ID is null.").build();
+                return Response.status(400).entity(new MessageDTO("The provided ID is null.")).build();
         }
 
         RealmCharacters link = this.realmCharactersController.find(new RealmCharactersID(realmID, accountID));
 
         if(link == null) {
-                return Response.status(404).entity("The provided ID has no match in the database.").build();
+                return Response.status(404).entity(new MessageDTO("The provided ID has no match in the database.")).build();
         }
 
         logger.debug("find() exit.");
@@ -125,7 +126,7 @@ public class RealmResourceService implements RealmResource {
         logger.debug("find() entry.");
 
         if (realmID == null) {
-                return Response.status(500).entity("The provided ID is null.").build();
+                return Response.status(400).entity(new MessageDTO("The provided ID is null.")).build();
         }
 
         List<LinksDTO> linkList = new ArrayList<>();
@@ -142,7 +143,7 @@ public class RealmResourceService implements RealmResource {
         logger.debug("find() entry.");
 
         if (accountID == null) {
-                return Response.status(500).entity("The provided ID is null.").build();
+                return Response.status(400).entity(new MessageDTO("The provided ID is null.")).build();
         }
 
         List<LinksDTO> linkList = new ArrayList<>();
@@ -172,11 +173,11 @@ public class RealmResourceService implements RealmResource {
         try {
                 this.realmCharactersController.create(linksMapper.dtoToEntity(entity));
         } catch (DAOException daoEx) {
-                return Response.status(400).entity(daoEx.getMessage()).build();
+                return Response.status(400).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
-        return Response.status(201).entity("Link has been created.").build();
+        return Response.status(201).entity(new MessageDTO("Link has been created.")).build();
     }
 
     public Response editRealmCharacters(Integer accountID, Integer realmID, LinksDTO entity) {
@@ -185,29 +186,29 @@ public class RealmResourceService implements RealmResource {
                 link.setId(new RealmCharactersID(accountID, realmID));
                 this.realmCharactersController.update(link);
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
-        return Response.status(200).entity("Link has been updated.").build();
+        return Response.status(200).entity(new MessageDTO("Link has been updated.")).build();
     }
 
     public Response deleteRealmList(Integer accountID, Integer realmID) {
         try {
                 this.realmCharactersController.delete(new RealmCharactersID(realmID, accountID));
         } catch (DAOException daoEx) {
-                return Response.status(404).entity(daoEx.getMessage()).build();
+                return Response.status(404).entity(new MessageDTO(daoEx.getMessage())).build();
         } catch (Exception ex) {
-                return Response.status(500).entity(ex.getMessage()).build();
+                return Response.status(500).entity(new MessageDTO(ex.getMessage())).build();
         }
-        return Response.status(204).build();
+        return Response.status(204).entity(new MessageDTO("Link has been deleted.")).build();
     }
 
     public Response getUptimesForRealm(Integer realmId) {
         logger.debug("getUptimesForRealm() entry.");
 
         if(realmId == null) {
-            return Response.status(500).entity("The provided ID is null.").build();
+            return Response.status(400).entity(new MessageDTO("The provided ID is null.")).build();
         }
 
         List<UptimeDTO> uptimeList = new ArrayList<>();
