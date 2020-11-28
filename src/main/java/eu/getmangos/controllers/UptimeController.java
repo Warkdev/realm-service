@@ -17,7 +17,7 @@ import eu.getmangos.entities.UptimeId;
 public class UptimeController {
     @Inject private Logger logger;
 
-    @PersistenceContext(name = "AUTH_PU")
+    @PersistenceContext(unitName = "AUTH_PU")
     private EntityManager em;
 
     /**

@@ -20,7 +20,7 @@ public class RealmCharactersController {
 
     @Inject RealmController realmController;
 
-    @PersistenceContext(name = "AUTH_PU")
+    @PersistenceContext(unitName = "AUTH_PU")
     private EntityManager em;
 
     @Transactional
