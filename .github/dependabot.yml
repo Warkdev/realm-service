@@ -1,0 +1,19 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: io.openliberty:openliberty-runtime
+    versions:
+    - 21.0.0.1
+    - 21.0.0.2
+    - 21.0.0.3
+  - dependency-name: io.openliberty.tools:liberty-maven-plugin
+    versions:
+    - 3.3.3
+  - dependency-name: org.mariadb.jdbc:mariadb-java-client
+    versions:
+    - 2.7.1
